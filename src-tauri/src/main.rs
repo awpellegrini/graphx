@@ -1,32 +1,25 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod tests;
-mod db;
+#[path = "graphs/generate.rs"] mod generate;
 
 #[tauri::command]
-fn greet(name: &str) -> String {
-   format!("Hello, {}!", name)
+fn generate_graph_example() -> String {
+  let res = generate::generate_graph_example();
+  format!("{:?}", res)
 }
 
 #[tauri::command]
-fn test_setup() {
-  tests::test_setup();
+fn generate_graph_random(vertices: usize, edges: usize) -> String {
+ let res = generate::generate_graph_random(vertices, edges);
+  format!("{:?}", res)
 }
-
-#[tauri::command]
-fn test_db() {
-  println!("js invoked db test");
-  db::test_db();
-}
-
 
 
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      greet,
-      test_setup,
-      test_db])
+      generate_graph_example,
+      generate_graph_random])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
