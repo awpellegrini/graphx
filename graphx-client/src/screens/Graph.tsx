@@ -1,21 +1,67 @@
-import {Graph, GraphNode} from 'reagraph';
-import GraphComponent from '../components/Graph';
-import {COMPLEX, SIMPLE_EDGES, SIMPLE_NODES} from '../mock/graphs';
+import GraphComponent from '../components/Graph/Graph';
+import useGraphxGraph from '../hooks/useGraphxGraph';
+import GraphSettings from '../components/Graph/components/GraphSettings';
+import GraphAdjMatrix from '../components/Graph/components/GraphAdjMatrix';
 
-const background = {
-  width: '100vw',
-  height: '100vh',
-  // background: 'black',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+type GraphScreenProps = {
+  type?: 'example' | 'random';
+  onBack: () => void;
 };
 
-export default function GraphScreen() {
-  console.log('SIMPLE_NODES', SIMPLE_NODES);
+export default function GraphScreen({type, onBack}: GraphScreenProps) {
+  const {graph, adj_mat, getGraphRandom, getSubGraph} = useGraphxGraph(type);
+
   return (
     <div>
-      <GraphComponent nodes={SIMPLE_NODES} edges={SIMPLE_EDGES} />
+      <button
+        style={{position: 'fixed', top: 0, left: 0, zIndex: 9}}
+        onClick={onBack}
+      >
+        back
+      </button>
+
+      {/* <button
+        style={{position: 'fixed', top: 0, right: 0, zIndex: 9}}
+        onClick={onBack}
+      >
+        cycle
+      </button> */}
+
+      <div style={{position: 'fixed', bottom: 0, left: 0, zIndex: 9}}>
+        <GraphSettings
+          vertices_num={graph.vertices.length}
+          edges_num={graph.edges.length}
+          onChange={getGraphRandom}
+        />
+      </div>
+
+      <div
+        style={{
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          zIndex: 9,
+          // width: 220,
+          // height: 220,
+          maxWidth: 180,
+          maxHeight: 180,
+          overflow: 'auto',
+          border: '1px solid red',
+          // display: 'flex',
+          // justifyContent: 'bottom',
+          // alignItems: 'right',
+        }}
+      >
+        <GraphAdjMatrix adj_mat={adj_mat} />
+      </div>
+      <GraphComponent
+        nodes={graph.vertices}
+        edges={graph.edges}
+        onNodeClick={(a, b) => {
+          console.log(a, b);
+          getSubGraph(a.id);
+        }}
+      />
     </div>
   );
 }

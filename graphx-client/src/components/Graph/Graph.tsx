@@ -1,22 +1,20 @@
 import {
   GraphCanvas,
+  GraphCanvasProps,
   GraphCanvasRef,
   GraphEdge,
   GraphNode,
+  darkTheme,
   useSelection,
 } from 'reagraph';
 import {useRef} from 'react';
 
-const fixedactives = ['2', '1', '3', '1-1', '2-3', '3-1'];
-// ["2"] (1)
-
-type GraphProps = {
+type GraphProps = GraphCanvasProps & {
   nodes: GraphNode[];
   edges: GraphEdge[];
 };
 
-export default function Graph({nodes, edges}: GraphProps) {
-  console.log('nodes', nodes);
+export default function Graph({nodes, edges, ...options}: GraphProps) {
   const graphRef = useRef<GraphCanvasRef | null>(null);
   const {selections, actives, onNodeClick, onCanvasClick} = useSelection({
     ref: graphRef,
@@ -36,12 +34,13 @@ export default function Graph({nodes, edges}: GraphProps) {
       // actives={fixedactives}
       onCanvasClick={onCanvasClick}
       onNodeClick={onNodeClick}
-      //
-      animated={false}
-      edgeLabelPosition="natural"
-      labelType="edges"
+      theme={darkTheme}
+      // animated={false}
+      // edgeLabelPosition="natural"
+      // labelType="edges"
       // for clustering byt category
       // clusterAttribute="category"
+      {...options}
     />
   );
 

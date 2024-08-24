@@ -1,31 +1,32 @@
-import {greet, testSetup, testDb} from '../api';
+import {testConnection} from '../api';
 
 const background = {
   width: '100vw',
   height: '100vh',
-  // background: 'black',
+  background: 'black',
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
 };
 
-type HomeProps = {
-  onSelectGraph: () => void;
+type HomeScreenProps = {
+  onChangeScreen: (name: string) => void;
 };
 
-export default function HomeScreen(props: HomeProps) {
+export default function HomeScreen({onChangeScreen}: HomeScreenProps) {
   return (
     <div style={background}>
+      <h1 style={{color: 'white'}}>GraphX</h1>
+
       <div>
-        <button onClick={props.onSelectGraph}>click</button>
+        <button onClick={() => onChangeScreen('example')}>Example Graph</button>
+
+        <button onClick={() => onChangeScreen('random')}>Random Graph</button>
       </div>
 
       <div>
-        <button onClick={greet}>greet</button>
-
-        <button onClick={testSetup}>test setup</button>
-
-        <button onClick={testDb}>test db</button>
+        <button onClick={testConnection}>test</button>
       </div>
     </div>
   );

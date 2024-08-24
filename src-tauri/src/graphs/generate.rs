@@ -2,6 +2,7 @@ use indradb::{Database, MemoryDatastore, Vertex};
 use rand::Rng; // 0.8
 use serde::Serialize;
 
+
 #[path = "../db.rs"] mod db;
 use db::{add_vertex, add_edge};
 
@@ -40,23 +41,49 @@ pub fn generate_graph(db: &Database<MemoryDatastore>, adj_mat: Vec<Vec<usize>>) 
 }
 
 
+// pub fn generate_graph_example() -> String {
+//     let db: Database<MemoryDatastore> = indradb::MemoryDatastore::new_db();
+
+//     let rome: Vertex = add_vertex(&db, "Rome".to_string());
+//     let london: Vertex = add_vertex(&db, "London".to_string());
+//     let paris: Vertex = add_vertex(&db, "Paris".to_string());
+//     let detroit: Vertex = add_vertex(&db,"Detroit".to_string());
+
+
+//     //all roads lead to Rome
+//     add_edge(&db, &london, &rome, "7".to_string());
+
+//     add_edge(&db, &paris, &rome, "4".to_string());
+//     add_edge(&db, &detroit, &paris, "12".to_string());
+
+
+//     let mut adj_mat : Vec<Vec<usize>> = vec![vec![0; 4]; 4];
+    
+//     return generate_graph(&db, adj_mat);
+// }
+
 pub fn generate_graph_example() -> String {
     let db: Database<MemoryDatastore> = indradb::MemoryDatastore::new_db();
 
-    let rome: Vertex = add_vertex(&db, "Rome".to_string());
-    let london: Vertex = add_vertex(&db, "London".to_string());
-    let paris: Vertex = add_vertex(&db, "Paris".to_string());
-    let detroit: Vertex = add_vertex(&db,"Detroit".to_string());
+    let v0: Vertex = add_vertex(&db, "0".to_string());
+    let v1: Vertex = add_vertex(&db, "1".to_string());
+    let v2: Vertex = add_vertex(&db, "2".to_string());
+    let v3: Vertex = add_vertex(&db, "3".to_string());
 
+    let mut adj_mat : Vec<Vec<usize>> = vec![vec![0; 4]; 4];
 
-    //all roads lead to Rome
-    add_edge(&db, &london, &rome, "7".to_string());
-
-    add_edge(&db, &paris, &rome, "4".to_string());
-    add_edge(&db, &detroit, &paris, "12".to_string());
-
-
-    let adj_mat : Vec<Vec<usize>> = vec![vec![0; 4]; 4];
+    add_edge(&db, &v0, &v1, "7".to_string());
+    adj_mat[0][1] = 1;
+    adj_mat[1][0] = 1;
+    add_edge(&db, &v1, &v2, "7".to_string());
+    adj_mat[1][2] = 1;
+    adj_mat[2][1] = 1;
+    add_edge(&db, &v1, &v3, "7".to_string());
+    adj_mat[1][3] = 1;
+    adj_mat[3][1] = 1;
+    add_edge(&db, &v2, &v0, "7".to_string());
+    adj_mat[2][0] = 1;
+    adj_mat[0][2] = 1;
     
     return generate_graph(&db, adj_mat);
 }
