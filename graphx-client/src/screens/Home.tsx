@@ -1,6 +1,24 @@
-import {testConnection} from '../api';
+type HomeScreenProps = {
+  onChangeScreen: (name: string) => void;
+};
 
-const background = {
+export default function HomeScreen({onChangeScreen}: HomeScreenProps) {
+  return (
+    // @ts-expect-error
+    <div style={containerStyle}>
+      <h1 style={titleStyle}>GraphX</h1>
+
+      <button onClick={() => onChangeScreen('example')}>Example Graph</button>
+      <button onClick={() => onChangeScreen('random')}>Random Graph</button>
+
+      <button style={playButtonStyle} onClick={() => console.log('ok')}>
+        Playground
+      </button>
+    </div>
+  );
+}
+
+const containerStyle = {
   width: '100vw',
   height: '100vh',
   background: 'black',
@@ -8,26 +26,16 @@ const background = {
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
+  gap: 24,
 };
 
-type HomeScreenProps = {
-  onChangeScreen: (name: string) => void;
+const titleStyle = {
+  color: 'white',
+  fontSize: 64,
 };
 
-export default function HomeScreen({onChangeScreen}: HomeScreenProps) {
-  return (
-    <div style={background}>
-      <h1 style={{color: 'white'}}>GraphX</h1>
-
-      <div>
-        <button onClick={() => onChangeScreen('example')}>Example Graph</button>
-
-        <button onClick={() => onChangeScreen('random')}>Random Graph</button>
-      </div>
-
-      <div>
-        <button onClick={testConnection}>test</button>
-      </div>
-    </div>
-  );
-}
+const playButtonStyle = {
+  width: 240,
+  height: 48,
+  fontSize: 20,
+};

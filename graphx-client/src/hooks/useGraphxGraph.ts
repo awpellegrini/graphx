@@ -13,6 +13,7 @@ type type = 'example' | 'random';
 
 export default function useGraphxGraph(type?: type) {
   const [graphData, setGraphData] = useState<GraphResponse>(DEFAULT_GRAPH_DATA);
+  const [customActives, setCustomActives] = useState<string[]>([]);
 
   const getGraphExample = useCallback(async () => {
     const data = await generateGraphExample();
@@ -22,6 +23,7 @@ export default function useGraphxGraph(type?: type) {
   const getGraphRandom = useCallback(
     async (options: GenerateGraphRandomOptions) => {
       const data = await generateGraphRandom(options);
+
       setGraphData(data);
     },
     []
@@ -29,8 +31,9 @@ export default function useGraphxGraph(type?: type) {
 
   const getSubGraph = useCallback(async (vertex_id: string) => {
     const data = await getConnectedSubGraph(vertex_id);
-    console.log({data});
-    // setGraphData(data);
+
+    const {vertex_ids} = data;
+    setCustomActives(vertex_ids);
   }, []);
 
   useEffect(() => {
@@ -46,6 +49,7 @@ export default function useGraphxGraph(type?: type) {
   return {
     graph: graphData.graph,
     adj_mat: graphData.adj_mat,
+    customActives,
     getGraphRandom,
     getSubGraph,
   };

@@ -9,7 +9,8 @@ type GraphScreenProps = {
 };
 
 export default function GraphScreen({type, onBack}: GraphScreenProps) {
-  const {graph, adj_mat, getGraphRandom, getSubGraph} = useGraphxGraph(type);
+  const {graph, adj_mat, customActives, getGraphRandom, getSubGraph} =
+    useGraphxGraph(type);
 
   return (
     <div>
@@ -57,10 +58,14 @@ export default function GraphScreen({type, onBack}: GraphScreenProps) {
       <GraphComponent
         nodes={graph.vertices}
         edges={graph.edges}
+        onEdgeClick={(a) => {
+          console.log('click', a);
+        }}
         onNodeClick={(a, b) => {
-          console.log(a, b);
+          console.log('click', a, b);
           getSubGraph(a.id);
         }}
+        actives={customActives}
       />
     </div>
   );

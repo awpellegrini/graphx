@@ -35,9 +35,9 @@ export default function Graph({nodes, edges, ...options}: GraphProps) {
       onCanvasClick={onCanvasClick}
       onNodeClick={onNodeClick}
       theme={darkTheme}
-      // animated={false}
+      animated={false}
       // edgeLabelPosition="natural"
-      // labelType="edges"
+      labelType="all"
       // for clustering byt category
       // clusterAttribute="category"
       {...options}
