@@ -1,9 +1,8 @@
 {
   "build": {
-    "beforeBuildCommand": "npm run build",
+    "beforeBuildCommand": "cd ./graphx-client && npm run build && mv dist ../dist",
     "beforeDevCommand": "cd ./graphx-client && npm run dev",
-    "devPath": "http://localhost:5173",
-    "distDir": "../dist"
+    "devPath": "http://localhost:5173"
   },
   "package": {
     "productName": "graphx-tauri",
@@ -28,7 +27,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "graphx.com",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
