@@ -12,15 +12,23 @@ import {useRef} from 'react';
 type GraphProps = GraphCanvasProps & {
   nodes: GraphNode[];
   edges: GraphEdge[];
+  directed?: boolean;
 };
 
-export default function Graph({nodes, edges, ...options}: GraphProps) {
+export default function Graph({
+  nodes,
+  edges,
+  directed,
+  ...options
+}: GraphProps) {
   const graphRef = useRef<GraphCanvasRef | null>(null);
-  const {selections, actives, onNodeClick, onCanvasClick} = useSelection({
+  const selections = useSelection({
     ref: graphRef,
     nodes: nodes,
     edges: edges,
     pathSelectionType: 'all',
+    actives: options.actives,
+    selections: options.selections,
   });
 
   return (
@@ -28,28 +36,12 @@ export default function Graph({nodes, edges, ...options}: GraphProps) {
       ref={graphRef}
       nodes={nodes}
       edges={edges}
-      selections={selections}
-      actives={actives}
-      // selections={[]}
-      // actives={fixedactives}
-      onCanvasClick={onCanvasClick}
-      onNodeClick={onNodeClick}
       theme={darkTheme}
       animated={false}
-      // edgeLabelPosition="natural"
-      labelType="all"
-      // for clustering byt category
-      // clusterAttribute="category"
+      draggable={true}
+      edgeArrowPosition={directed ? 'end' : 'none'}
+      {...selections}
       {...options}
     />
   );
-
-  // return (
-  //   <GraphCanvas
-  //     animated={false}
-  //     // onNodeDoubleClick={(node) => alert(node.label)}
-  //     nodes={COMPLEX.nodes}
-  //     edges={COMPLEX.edges}
-  //   />
-  // );
 }

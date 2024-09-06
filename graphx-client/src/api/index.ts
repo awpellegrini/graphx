@@ -2,12 +2,6 @@
 import {invoke} from '@tauri-apps/api';
 import {convert} from '../utils/conversion';
 
-export const testConnection = async (): Promise<string> => {
-  const response: any = await invoke('testconnect');
-
-  return response;
-};
-
 //examples
 export type GraphResponse = {
   graph: GraphxGraph;
@@ -27,6 +21,7 @@ export const generateGraphExample = async (): Promise<GraphResponse> => {
 export type GenerateGraphRandomOptions = {
   vertices_num?: number;
   edges_num?: number;
+  directed?: boolean;
 };
 
 export const generateGraphRandom = async (
@@ -35,6 +30,7 @@ export const generateGraphRandom = async (
   const response: any = await invoke('generate_graph_random', {
     vertices: options.vertices_num,
     edges: options.edges_num,
+    directed: options.directed || false,
   });
 
   const parsed = JSON.parse(response);
@@ -47,11 +43,17 @@ export const generateGraphRandom = async (
 
 export const getConnectedSubGraph = async (
   vertex: string
-): Promise<{vertex_ids: string[]}> => {
+): Promise<[vertices: string[], edges: [string, string]]> => {
   const response: any = await invoke('get_connected_subgraph', {vertex});
+
+  return JSON.parse(response);
+};
+
+export const initializePlayground = async (): Promise<{
+  vertex_ids: string[];
+}> => {
+  const response: any = await invoke('initialize_playground');
   const parsed = JSON.parse(response);
 
-  let graphobj = eval('(' + parsed + ')');
-
-  return graphobj;
+  return parsed;
 };

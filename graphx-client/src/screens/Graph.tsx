@@ -9,8 +9,15 @@ type GraphScreenProps = {
 };
 
 export default function GraphScreen({type, onBack}: GraphScreenProps) {
-  const {graph, adj_mat, customActives, getGraphRandom, getSubGraph} =
-    useGraphxGraph(type);
+  const {
+    graph,
+    directed,
+    adj_mat,
+    customActives,
+    customSelected,
+    getGraphRandom,
+    getSubGraph,
+  } = useGraphxGraph(type);
 
   return (
     <div>
@@ -21,50 +28,33 @@ export default function GraphScreen({type, onBack}: GraphScreenProps) {
         back
       </button>
 
-      {/* <button
-        style={{position: 'fixed', top: 0, right: 0, zIndex: 9}}
-        onClick={onBack}
-      >
-        cycle
-      </button> */}
-
-      <div style={{position: 'fixed', bottom: 0, left: 0, zIndex: 9}}>
+      <div style={{position: 'fixed', bottom: 20, left: 20, zIndex: 9}}>
         <GraphSettings
           vertices_num={graph.vertices.length}
-          edges_num={graph.edges.length}
+          // half the number of edges for undirected graph
+          edges_num={graph.edges.length / (directed ? 1 : 2)}
+          directed={directed}
           onChange={getGraphRandom}
         />
       </div>
 
-      <div
+      <GraphAdjMatrix
+        adj_mat={adj_mat}
         style={{
           position: 'fixed',
           bottom: 20,
           right: 20,
           zIndex: 9,
-          // width: 220,
-          // height: 220,
-          maxWidth: 180,
-          maxHeight: 180,
-          overflow: 'auto',
-          border: '1px solid red',
-          // display: 'flex',
-          // justifyContent: 'bottom',
-          // alignItems: 'right',
         }}
-      >
-        <GraphAdjMatrix adj_mat={adj_mat} />
-      </div>
+      />
+
       <GraphComponent
         nodes={graph.vertices}
         edges={graph.edges}
-        onEdgeClick={(a) => {
-          console.log('click', a);
-        }}
-        onNodeClick={(a, b) => {
-          console.log('click', a, b);
-          getSubGraph(a.id);
-        }}
+        directed={directed}
+        onNodeClick={({id}) => getSubGraph(id)}
+        labelType="nodes"
+        selections={customSelected}
         actives={customActives}
       />
     </div>

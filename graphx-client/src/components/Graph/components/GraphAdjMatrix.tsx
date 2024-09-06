@@ -1,14 +1,27 @@
 type GraphAdjMatrixProps = {
   adj_mat: number[][];
+  style?: any;
 };
 
-export default function GraphAdjMatrix({adj_mat}: GraphAdjMatrixProps) {
+export default function GraphAdjMatrix({
+  adj_mat,
+  style = {},
+}: GraphAdjMatrixProps) {
   return (
-    <div style={{border: '1px solid green'}}>
+    <div
+      style={{
+        maxWidth: 180,
+        maxHeight: 180,
+        overflow: 'auto',
+        // border: '1px solid white',
+        ...style,
+      }}
+    >
       {adj_mat.map((row, i) => (
-        <div style={{display: 'flex', border: '1px solid black'}}>
+        <div style={{display: 'flex'}}>
           {row.map((value, j) => (
             <div
+              key={`${i}-${j}`}
               style={{
                 color: 'black',
                 display: 'inline-flex',
