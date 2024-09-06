@@ -1,174 +1,52 @@
-// #[path = "../db.rs"] mod db;
-use indradb::{self, AllVertexQuery};
+use indradb::{Vertex, Edge};
 
-pub fn get_connected_subgraph(vertex_id: String){
-    println!("get_connected_subgraph {:?}", vertex_id);
-
-//    let db = indradb::Me
-
-    // indradb::Database::get(&self, q)
-    // let vertices: Vec<indradb::QueryOutputValue> = indradb::MemoryDatastore.get(indradb::AllVertexQuery).unwrap();
-    // let v = indradb::util::extract_vertices(vertices.to_vec()).unwrap();
-    // println!("{:?}", vertices);
+// depth first search
+fn dfs(vertices: &Vec<String>, edges: &Vec<(String, String)>, initial_vertex: String) -> Vec<String> {
+    let mut index_stack = vec!();
+    index_stack.push(initial_vertex);
     
-    // let ids: Vec<String>= v.into_iter().map(|x| x.id.to_string()).collect::<Vec<String>>();
-    // println!("{:?}", ids);
-    
+    let mut discovered = vertices.into_iter().map(|x| (x.to_string(), false)).collect::<Vec<(String, bool)>>();
+    let mut i = 0;
 
-    // db::get_vertices();
-    // tester();
-}
-
-
-
-#[derive(Debug)]
-pub struct dfs_vertex {
-    id: usize,
-    visited: bool,
-}
-#[derive(Debug)]
-pub struct dfs_graph {
-    vertices: Vec<dfs_vertex>,
-    edges: Vec<(usize, usize)>,
-}
-
-
-// pub
-
-pub fn dfs(graph: dfs_graph, initialId: usize){
-    let mut vertices = graph.vertices;
-    let edges = graph.edges;
-
-    let mut index_stack: Vec<usize> = vec![];
-
-    index_stack.push(initialId);
-
-    let mut i =0;
-    // let mut discovered = [false, false, false, false];
-
-    while index_stack.len() > 0 && i<100 {
-        println!("*,{}",i);
+    while index_stack.len() > 0 && i<1000 {
         let v = index_stack.pop().unwrap();
-//        If ( b == value)
-//        Return true // we found the value
-        println!("popped {:?}",v);
+        let index_of_v = discovered.iter_mut().position(|r|  r.0.to_string() == v).unwrap();
+        
+        if !discovered[index_of_v].1 {
+            discovered[index_of_v].1 = true;
 
-
-        if !vertices[v].visited {
-            vertices[v].visited = true;
-
-            for edge in edges.iter(){
-                if edge.0 == vertices[v].id {
-                    index_stack.push(edge.1);
+            for edge in edges.iter() {
+                if edge.0 == v {
+                    index_stack.push(edge.1.clone());
                 }
             }
         }
 
         i+=1;
     }
+    //return just the id's
+    return discovered.into_iter().filter(|x| x.1 == true).map(|x| x.0.to_string()).collect::<Vec<String>>();
 }
 
-// --- //
-// #[derive(Debug)]
-// pub struct dfs_vertex {
-//     id: usize,
-//     visited: bool,
-// }
-// #[derive(Debug)]
-// pub struct dfs_graph {
-//     vertices: Vec<dfs_vertex>,
-//     edges: Vec<(usize, usize)>,
-// }
+pub fn get_connected_subgraph(vertices: Vec<Vertex>, edges: Vec<Edge>, vertex_id: String) -> (Vec<String>, Vec<(String, String)>) {
+    let vertex_ids = get_vertex_ids(vertices);
+    let edge_ids = get_edge_ids(edges);
 
+    let result = dfs(&vertex_ids, &edge_ids, vertex_id);
+    let filtered_edges = edge_ids.into_iter().filter(|x| result.contains(&x.0)).collect::<Vec<(String, String)>>();
 
-// // pub fn dfs_recursive(G: dfs_graph, v: dfs_vertex){
-//     v.visited = true;
+    return (result, filtered_edges);
+}
 
-//     for edge in G.edges.iter(){
-//         if edge.0 == v.id && !G.vertices[edge.1].visited  {
-//                 dfs_recursive(G, G.vertices[edge.1]);
-//         }
-//     }
+fn get_vertex_ids(vertices: Vec<Vertex>) -> Vec<String>{
+    let ids: Vec<String>= vertices.into_iter().map(|x| x.id.to_string()).collect::<Vec<String>>();
+    return ids;
+}
 
-// }
-
-// pub fn dfs(graph: dfs_graph, initialId: usize){
-//     let mut vertices = graph.vertices;
-//     let edges = graph.edges;
-
-//     let mut index_stack: Vec<usize> = vec![];
-
-//     index_stack.push(initialId);
-
-//     let mut i =0;
-//     // let mut discovered = [false, false, false, false];
-
-//     while index_stack.len() > 0 && i<100 {
-//         println!("*,{}",i);
-//         let v = index_stack.pop().unwrap();
-// //        If ( b == value)
-// //        Return true // we found the value
-//         println!("popped {:?}",v);
-
-
-//         if !vertices[v].visited {
-//             vertices[v].visited = true;
-
-//             for edge in edges.iter(){
-//                 if edge.0 == vertices[v].id {
-//                     index_stack.push(edge.1);
-//                 }
-//             }
-//         }
-
-//         i+=1;
-//     }
-
-//     println!("xxx{:?}", vertices);
-// }
-
-// type VertexType = usize;
-
-
-// #[derive(Debug)]
-// pub struct GraphType {
-//     vertices: Vec<VertexType>,
-//     edges: Vec<(usize, usize)>,
-// }
-
-// pub fn dfs(graph: GraphType, v0: VertexType){
-//     let vertices = graph.vertices;
-//     let edges = graph.edges;
-
-//     let mut discovered = vec![false; vertices.len()];
-
-//     let mut index_stack: Vec<usize> = vec![];
-
-//     index_stack.push(v0);
-
-//     let mut i =0;
-
-//     while index_stack.len() > 0 && i < 100 {
-//         println!("*,{}",i);
-//         let v = index_stack.pop().unwrap();
-// //        If ( b == value)
-// //        Return true // we found the value
-
-
-//         if !discovered[v] {
-//             discovered[v] = true;
-
-//             for edge in edges.iter(){
-//                 if edge.0 == vertices[v] {
-//                     index_stack.push(edge.1);
-//                 }
-//             }
-//         }
-
-//         i+=1;
-//     }
-
-//     println!("xxx{:?}{:?}", vertices, discovered);
-// }
-
-
+fn get_edge_ids(edges: Vec<Edge>) -> Vec<(String, String)>{
+    let edge_ids = edges.into_iter()
+        .map(|x| (x.outbound_id.to_string(), x.inbound_id.to_string()))
+        .collect::<Vec<(String, String)>>();
+    
+    return edge_ids;
+}

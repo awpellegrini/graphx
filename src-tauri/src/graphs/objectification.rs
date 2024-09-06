@@ -2,7 +2,7 @@
 use indradb::{Vertex, Edge};
 use serde_json::{Value, json};
 
-pub fn objectification(graph: &(Vec<Vertex>, Vec<Edge>)) -> Value {
+pub fn objectify(graph: &(Vec<Vertex>, Vec<Edge>)) -> Value {
     let vertices = graph.0.iter().map(|v| {
         json!({
             "id": v.id,
@@ -18,11 +18,9 @@ pub fn objectification(graph: &(Vec<Vertex>, Vec<Edge>)) -> Value {
         })
     }).collect::<Vec<Value>>();
 
-    let obj = json!({
+    return json!({
             "vertices": vertices,
             "edges": edges
     });
-
-    return obj
 }
 
