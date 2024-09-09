@@ -1,3 +1,5 @@
+type Screens = 'home' | 'example' | 'random' | 'playground';
+
 type GraphxVertex = {
   id: string;
   label: string;

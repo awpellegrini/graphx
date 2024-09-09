@@ -4,7 +4,7 @@ import GraphSettings from '../components/Graph/components/GraphSettings';
 import GraphAdjMatrix from '../components/Graph/components/GraphAdjMatrix';
 
 type GraphScreenProps = {
-  type?: 'example' | 'random';
+  type: 'example' | 'random';
   onBack: () => void;
 };
 
@@ -22,7 +22,7 @@ export default function GraphScreen({type, onBack}: GraphScreenProps) {
   return (
     <div>
       <button
-        style={{position: 'fixed', top: 0, left: 0, zIndex: 9}}
+        style={{position: 'fixed', top: 20, left: 20, zIndex: 9}}
         onClick={onBack}
       >
         back

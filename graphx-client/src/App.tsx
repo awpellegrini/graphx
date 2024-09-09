@@ -1,13 +1,12 @@
 import {useState} from 'react';
 import HomeScreen from './screens/Home';
 import GraphScreen from './screens/Graph';
+import PlaygroundScreen from './screens/Playground';
 
 // <button onClick={dosome}>click</button>
 
-// type Screens = 'home' | 'example' | 'random';
-
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('home');
+  const [currentScreen, setCurrentScreen] = useState<Screens>('playground');
 
   if (currentScreen === 'example') {
     return (
@@ -19,6 +18,10 @@ function App() {
     return (
       <GraphScreen type="random" onBack={() => setCurrentScreen('home')} />
     );
+  }
+
+  if (currentScreen === 'playground') {
+    return <PlaygroundScreen onBack={() => setCurrentScreen('home')} />;
   }
 
   return <HomeScreen onChangeScreen={setCurrentScreen} />;

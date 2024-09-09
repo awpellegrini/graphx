@@ -9,9 +9,7 @@ import {
 
 const DEFAULT_GRAPH_DATA = {graph: {vertices: [], edges: []}, adj_mat: []};
 
-type type = 'example' | 'random';
-
-export default function useGraphxGraph(type?: type) {
+export default function useGraphxGraph(type: 'example' | 'random') {
   const [graphData, setGraphData] = useState<GraphResponse>(DEFAULT_GRAPH_DATA);
   const [directed, setDirected] = useState(true);
 

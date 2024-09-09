@@ -1,5 +1,5 @@
 type HomeScreenProps = {
-  onChangeScreen: (name: string) => void;
+  onChangeScreen: (name: Screens) => void;
 };
 
 export default function HomeScreen({onChangeScreen}: HomeScreenProps) {
@@ -11,7 +11,10 @@ export default function HomeScreen({onChangeScreen}: HomeScreenProps) {
       <button onClick={() => onChangeScreen('example')}>Example Graph</button>
       <button onClick={() => onChangeScreen('random')}>Random Graph</button>
 
-      <button style={playButtonStyle} onClick={() => console.log('ok')}>
+      <button
+        style={playButtonStyle}
+        onClick={() => onChangeScreen('playground')}
+      >
         Playground
       </button>
     </div>

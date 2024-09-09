@@ -7,41 +7,45 @@ type GraphSettingsValues = {
 type GraphSettingsProps = GraphSettingsValues & {
   onChange: (value: GraphSettingsValues) => void;
   onChangeDirect?: (value: boolean) => void;
+  disabled?: boolean;
 };
 
-export default function GraphSettings(settings: GraphSettingsProps) {
+export default function GraphSettings(props: GraphSettingsProps) {
   return (
     <div style={containerStyle}>
-      <div style={checkboxStyle}>
-        <label htmlFor="directed" style={labelStyle}>
-          Directed
-          <input
-            id="directed"
-            type="checkbox"
-            checked={settings.directed ? true : false}
-            onChange={(e) => {
-              settings.onChange({
-                vertices_num: settings.vertices_num,
-                edges_num: settings.edges_num,
-                directed: e.target.checked || false,
-              });
-            }}
-          />
-        </label>
-      </div>
+      {!props.disabled && (
+        <div style={checkboxStyle}>
+          <label htmlFor="directed" style={labelStyle}>
+            Directed
+            <input
+              id="directed"
+              type="checkbox"
+              checked={props.directed ? true : false}
+              onChange={(e) => {
+                props.onChange({
+                  vertices_num: props.vertices_num,
+                  edges_num: props.edges_num,
+                  directed: e.target.checked || false,
+                });
+              }}
+            />
+          </label>
+        </div>
+      )}
 
       <div style={rowStyle}>
         <label>Vertices</label>
         <input
+          disabled={props.disabled}
           type="number"
           placeholder="4"
           min={2}
-          value={settings.vertices_num}
+          value={props.vertices_num}
           onChange={(e) => {
-            settings.onChange({
+            props.onChange({
               vertices_num: parseInt(e.target.value),
-              edges_num: settings.edges_num,
-              directed: settings.directed,
+              edges_num: props.edges_num,
+              directed: props.directed,
             });
           }}
           style={inputStyle}
@@ -51,15 +55,16 @@ export default function GraphSettings(settings: GraphSettingsProps) {
       <div style={rowStyle}>
         <label>Edges</label>
         <input
+          disabled={props.disabled}
           type="number"
           placeholder="4"
           min={2}
-          value={settings.edges_num}
+          value={props.edges_num}
           onChange={(e) => {
-            settings.onChange({
-              vertices_num: settings.vertices_num,
+            props.onChange({
+              vertices_num: props.vertices_num,
               edges_num: parseInt(e.target.value),
-              directed: settings.directed,
+              directed: props.directed,
             });
           }}
           style={inputStyle}

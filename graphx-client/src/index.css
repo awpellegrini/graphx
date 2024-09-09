@@ -30,6 +30,14 @@ body {
   min-height: 100vh;
 }
 
+body {
+  --radial-menu-background: #fff;
+  --radial-menu-color: #000;
+  --radial-menu-border: #AACBD2;
+  --radial-menu-active-color: #000;
+  --radial-menu-active-background: #D8E6EA;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

@@ -13,7 +13,6 @@ export default function GraphAdjMatrix({
         maxWidth: 180,
         maxHeight: 180,
         overflow: 'auto',
-        // border: '1px solid white',
         ...style,
       }}
     >

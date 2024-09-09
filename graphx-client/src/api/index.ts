@@ -49,11 +49,56 @@ export const getConnectedSubGraph = async (
   return JSON.parse(response);
 };
 
-export const initializePlayground = async (): Promise<{
-  vertex_ids: string[];
-}> => {
-  const response: any = await invoke('initialize_playground');
+export const getPlaygroundGraph = async (): Promise<GraphResponse> => {
+  const response: any = await invoke('get_graph');
   const parsed = JSON.parse(response);
 
-  return parsed;
+  return {
+    graph: convert(parsed.graph),
+    adj_mat: parsed.adj_mat,
+  };
+};
+
+export const createVertex = async (label: string): Promise<GraphResponse> => {
+  const response: any = await invoke('create_vertex', {label});
+  const parsed = JSON.parse(response);
+
+  return {
+    graph: convert(parsed.graph),
+    adj_mat: parsed.adj_mat,
+  };
+};
+
+export const create_edge = async (
+  outid: string,
+  inid: string,
+  label: string
+): Promise<GraphResponse> => {
+  const response: any = await invoke('create_edge', {outid, inid, label});
+  const parsed = JSON.parse(response);
+
+  return {
+    graph: convert(parsed.graph),
+    adj_mat: parsed.adj_mat,
+  };
+};
+
+export const delete_vertex = async (id: string): Promise<GraphResponse> => {
+  const response: any = await invoke('delete_vertex', {id});
+  const parsed = JSON.parse(response);
+
+  return {
+    graph: convert(parsed.graph),
+    adj_mat: parsed.adj_mat,
+  };
+};
+
+export const delete_edge = async (id: string): Promise<GraphResponse> => {
+  const response: any = await invoke('delete_edge', {id});
+  const parsed = JSON.parse(response);
+
+  return {
+    graph: convert(parsed.graph),
+    adj_mat: parsed.adj_mat,
+  };
 };
