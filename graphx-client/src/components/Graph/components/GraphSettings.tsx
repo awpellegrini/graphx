@@ -8,11 +8,12 @@ type GraphSettingsProps = GraphSettingsValues & {
   onChange: (value: GraphSettingsValues) => void;
   onChangeDirect?: (value: boolean) => void;
   disabled?: boolean;
+  style?: any;
 };
 
 export default function GraphSettings(props: GraphSettingsProps) {
   return (
-    <div style={containerStyle}>
+    <div style={{...containerStyle, ...(props.style || {})}}>
       {!props.disabled && (
         <div style={checkboxStyle}>
           <label htmlFor="directed" style={labelStyle}>

@@ -1,8 +1,8 @@
 # GraphX
 
-Graphical interface for interacting with a graph database.
+Graphical interface for interacting with a graph based database.
 
-## Getting Started
+## Dev mode
 
 ### Installation
 
@@ -10,17 +10,18 @@ Install the client dependencies
 ```
 $ cd ./graphx-client && npm install
 ```
-### Running in dev mode
+
+### Running the appp
 
 Launch the app in development mode
 ```
 $ cargo tauri dev
 ```
 
-### Creating a build
+## Creating a build
 Create the build
 ```
-$ cargo tauri dev
+$ cargo tauri build
 ```
 
 ## Version History
