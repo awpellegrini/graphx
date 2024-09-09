@@ -1,7 +1,8 @@
 
+use std::path::PathBuf;
+use uuid;
 use indradb::{Vertex, Edge, BulkInsertItem, AllVertexQuery, AllEdgeQuery, Identifier};
 use tauri::api::path::public_dir;
-use std::path::PathBuf;
 
 //db
 pub fn get_db_path() -> PathBuf {
@@ -11,12 +12,6 @@ pub fn get_db_path() -> PathBuf {
     return db_path;
 }
 
-// // MemoryDatastore
-// pub fn get_db() -> indradb::Database<indradb::MemoryDatastore> {
-//     let db = indradb::MemoryDatastore::new_db();
-//     return db
-// }
-//RocksdbDatastore
 pub fn get_db() -> indradb::Database<indradb::RocksdbDatastore> {
     let db = indradb::RocksdbDatastore::new_db(get_db_path()).unwrap();
     return db
@@ -29,31 +24,50 @@ pub fn clear_db() {
 }
 
 // //insertions
-// pub fn create_identifier(label: &str) -> Identifier {
-//     return Identifier::new(label).unwrap();
-// }
+pub fn create_identifier(label: &str) -> Identifier {
+    return Identifier::new(label).unwrap();
+}
 
+pub fn create_vertex(label: &str) -> Vertex {
+    let db = get_db();
 
-// pub fn create_vertex(label: &str) -> Vertex {
-//     let db = get_db();
-
-//     let db_vertex: Vertex = Vertex::new(create_identifier(label));
-//     db.create_vertex(&db_vertex).unwrap();
+    let db_vertex: Vertex = Vertex::new(create_identifier(label));
+    db.create_vertex(&db_vertex).unwrap();
     
-//     return db_vertex
-// }
+    return db_vertex
+}
 
-// pub fn create_edge(out_v: &Vertex , in_v: &Vertex, label: &str) -> Edge {
-//     let db = get_db();
+pub fn create_edge(out_v: &str , in_v: &str, label: &str) -> Edge {
+    let db = get_db();
 
-//     // let id: Identifier = create_identifier(format!("{}_{}", out_v.id, in_v.id).as_str());
-//     let id: Identifier = create_identifier(label);
-//     let edge = indradb::Edge::new( out_v.id, id, in_v.id);
+    let id: Identifier = create_identifier(label);
+    let out_id = uuid::Uuid::parse_str(out_v).unwrap();
+    let in_id = uuid::Uuid::parse_str(in_v).unwrap();
+
+    let edge = indradb::Edge::new( out_id, id, in_id);
   
-//     db.create_edge(&edge).unwrap();
+    db.create_edge(&edge).unwrap();
 
-//     return edge
-// }
+    return edge
+}
+
+pub fn delete_vertex(id: &str) {
+    let db = get_db();
+    let uid = uuid::Uuid::parse_str(id).unwrap();
+    let q = indradb::SpecificVertexQuery::new(vec![uid]);
+  
+    db.delete(q).unwrap();
+}
+
+pub fn delete_edge(id: &str) {
+    let edges = get_edges();
+
+    let edge = edges.into_iter().find(|x| format!("{} {}", x.outbound_id, x.inbound_id) == id).unwrap();
+    let q = indradb::SpecificEdgeQuery::single(edge);
+
+    let db = get_db();
+    db.delete(q).unwrap();
+}
 
 pub fn create_graph(graph: &(Vec<Vertex>, Vec<Edge>) ) {
     let db = get_db();

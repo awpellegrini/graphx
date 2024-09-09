@@ -6,23 +6,57 @@ use serde_json;
 #[path = "graphs/objectification.rs"] mod objectification;
 #[path = "graphs/dfs.rs"] mod dfs;
 
+fn reply_current_graph() -> String {
+  let v = db::get_vertices();
+  let e = db::get_edges();
 
-#[tauri::command]
-fn playground_initialize() -> String {
-  //TODO: intialize playground in the db
-  println!("playground_initialize");
+  let graph = (v, e);
 
   let response = serde_json::json!({
-    "graph": {
-      "vertices": [],
-      "edges": []
-    },
+    "graph": objectification::objectify(&graph),
     "adj_mat": []
   });
 
   return serde_json::to_string(&response).unwrap();
 }
 
+#[tauri::command]
+fn get_graph() -> String {
+  return reply_current_graph();
+}
+
+#[tauri::command]
+fn create_vertex(label: String) -> String {
+  db::create_vertex(&label);
+
+  return reply_current_graph();
+}
+
+#[tauri::command]
+fn create_edge(outid: String, inid: String, label: String) -> String {
+  println!("Creating edge: {} -> {} ({})", outid, inid, label);
+  db::create_edge(&outid, &inid, &label);
+
+  return reply_current_graph();
+}
+
+#[tauri::command]
+fn delete_vertex(id: String) -> String {
+  db::delete_vertex(&id);
+
+  return reply_current_graph();
+}
+
+#[tauri::command]
+fn delete_edge(id: String) -> String {
+  println!("Deleting edge: {}", id);
+  db::delete_edge(&id);
+
+  return reply_current_graph();
+}
+
+
+//
 #[tauri::command]
 fn generate_graph_example() -> String {
   let (example_graph, adj_mat) = examples::create_graph_example();
@@ -67,7 +101,11 @@ fn get_connected_subgraph(vertex: String) -> String {
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      playground_initialize,
+      get_graph,
+      create_vertex,
+      create_edge,
+      delete_vertex,
+      delete_edge,
       generate_graph_example,
       generate_graph_random,
       get_connected_subgraph,
