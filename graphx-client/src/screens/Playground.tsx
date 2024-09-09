@@ -113,7 +113,7 @@ export default function PlaygroundScreen({onBack}: GraphScreenProps) {
         selections={customSelected}
         actives={customActives}
         onNodeDoubleClick={({id}) => getSubGraph(id)}
-        onCanvasClick={(e) => {
+        onCanvasClick={() => {
           clearSelections();
         }}
         contextMenu={renderContextMenu}
