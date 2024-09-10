@@ -3,10 +3,8 @@ import HomeScreen from './screens/Home';
 import GraphScreen from './screens/Graph';
 import PlaygroundScreen from './screens/Playground';
 
-// <button onClick={dosome}>click</button>
-
 function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screens>('playground');
+  const [currentScreen, setCurrentScreen] = useState<Screens>('home');
 
   if (currentScreen === 'example') {
     return (
