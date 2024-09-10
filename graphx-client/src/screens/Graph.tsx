@@ -18,6 +18,7 @@ export default function GraphScreen({type, onBack}: GraphScreenProps) {
     customSelected,
     getGraphRandom,
     getSubGraph,
+    clearSelections,
   } = useGraphxGraph(type);
 
   return (
@@ -56,7 +57,9 @@ export default function GraphScreen({type, onBack}: GraphScreenProps) {
         nodes={type === 'example' ? EXAMPLE_VERTICES : graph.vertices}
         edges={type === 'example' ? EXAMPLE_EDGES : graph.edges}
         directed={directed}
+        onNodeClick={() => {}}
         onNodeDoubleClick={({id}) => getSubGraph(id)}
+        onCanvasClick={clearSelections}
         labelType="nodes"
         selections={customSelected}
         actives={customActives}

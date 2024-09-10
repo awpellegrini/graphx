@@ -41,7 +41,6 @@ export default function PlaygroundScreen({onBack}: GraphScreenProps) {
         {
           label: 'Remove Edge',
           onClick: () => {
-            console.log(data);
             deleteEdge(data.id);
             onClose();
           },
@@ -61,7 +60,6 @@ export default function PlaygroundScreen({onBack}: GraphScreenProps) {
         {
           label: 'Delete Node',
           onClick: () => {
-            console.log(data);
             deleteVertex(data.id);
             onClose();
           },
@@ -100,7 +98,7 @@ export default function PlaygroundScreen({onBack}: GraphScreenProps) {
           // half the number of edges for undirected graph
           edges_num={graph.edges.length / (true ? 1 : 2)}
           directed={true}
-          onChange={console.log}
+          onChange={() => {}}
         />
       </div>
 
@@ -109,13 +107,11 @@ export default function PlaygroundScreen({onBack}: GraphScreenProps) {
         edges={graph.edges}
         directed={true}
         onNodeClick={() => {}}
+        onNodeDoubleClick={({id}) => getSubGraph(id)}
+        onCanvasClick={clearSelections}
         labelType="nodes"
         selections={customSelected}
         actives={customActives}
-        onNodeDoubleClick={({id}) => getSubGraph(id)}
-        onCanvasClick={() => {
-          clearSelections();
-        }}
         contextMenu={renderContextMenu}
       />
     </div>

@@ -59,5 +59,9 @@ export default function useGraphxGraph(type: 'example' | 'random') {
     customSelected,
     getGraphRandom,
     getSubGraph,
+    clearSelections: () => {
+      setCustomActives([]);
+      setCustomSelected([]);
+    },
   };
 }

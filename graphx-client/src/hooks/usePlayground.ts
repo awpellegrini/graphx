@@ -49,7 +49,6 @@ export default function usePlayground() {
 
   const handleAddEdges = useCallback(
     async (edge_id: string) => {
-      console.log({edge_id});
       if (selectedId) {
         const data = await create_edge(selectedId, edge_id, 'edge');
         setGraphData(data);
@@ -75,7 +74,6 @@ export default function usePlayground() {
     return {vertices: v, edges: graphData.graph.edges};
   }, [graphData, selectedId]);
 
-  console.log({selectedId});
   return {
     graph: graph,
     adj_mat: graphData.adj_mat,
