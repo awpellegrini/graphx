@@ -1,6 +1,13 @@
 # GraphX
 
-Graphical interface for interacting with a graph based database.
+Application for graph visualization and analysis.
+
+The app will use the user's [data directory][https://tauri.app/v1/api/js/path/#datadir] to store the database file
+
+Platform-specific
+* Linux: Resolves to $XDG_DATA_HOME or $HOME/.local/share/graphx.db
+* macOS: Resolves to $HOME/Library/Application Support/graphx.db
+* Windows: Resolves to {FOLDERID_RoamingAppData}/graphx.db
 
 ## Dev mode
 

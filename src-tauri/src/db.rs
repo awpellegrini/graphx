@@ -2,11 +2,11 @@
 use std::path::PathBuf;
 use uuid;
 use indradb::{Vertex, Edge, BulkInsertItem, AllVertexQuery, AllEdgeQuery, Identifier};
-use tauri::api::path::public_dir;
+use tauri::api::path::data_dir;
 
 //db
 pub fn get_db_path() -> PathBuf {
-    let app_data_path = public_dir().unwrap();
+    let app_data_path = data_dir().unwrap();
     let db_path = app_data_path.join("graphx.db");
 
     return db_path;
