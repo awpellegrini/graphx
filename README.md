@@ -2,7 +2,7 @@
 
 Application for graph visualization and analysis.
 
-The app will use the user's [data directory][https://tauri.app/v1/api/js/path/#datadir] to store the database file
+The app will use the user's [data directory](https://tauri.app/v1/api/js/path/#datadir) to store the database file
 
 Platform-specific
 * Linux: Resolves to $XDG_DATA_HOME or $HOME/.local/share/graphx.db
