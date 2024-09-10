@@ -1,6 +1,6 @@
 {
   "build": {
-    "beforeBuildCommand": "cd ./graphx-client && npm run build && mv dist ../dist",
+    "beforeBuildCommand": "rm -rf dist && cd ./graphx-client && npm i && npm run build && mv dist ../dist",
     "beforeDevCommand": "cd ./graphx-client && npm run dev",
     "devPath": "http://localhost:5173"
   },

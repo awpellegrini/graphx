@@ -11,14 +11,14 @@ Install the client dependencies
 $ cd ./graphx-client && npm install
 ```
 
-### Running the appp
+### Running the app
 
 Launch the app in development mode
 ```
 $ cargo tauri dev
 ```
 
-## Creating a build
+## Build
 Create the build
 ```
 $ cargo tauri build
