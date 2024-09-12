@@ -2,12 +2,17 @@
 
 Application for graph visualization and analysis.
 
-The app will use the user's [data directory](https://tauri.app/v1/api/js/path/#datadir) to store the database file
+The app will use the user's [data directory](https://docs.rs/tauri/1.7.2/tauri/api/path/fn.data_dir.html) to store the database file
 
 Platform-specific
-* Linux: Resolves to $XDG_DATA_HOME or $HOME/.local/share/graphx.db
+* Linux: Resolves to $XDG_DATA_HOME/graphx.db or $HOME/.local/share/graphx.db
 * macOS: Resolves to $HOME/Library/Application Support/graphx.db
 * Windows: Resolves to {FOLDERID_RoamingAppData}/graphx.db
+
+## Requirements
+
+* [node](https://nodejs.org/en/download/package-manager)
+* [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 
 ## Dev mode
 
@@ -25,7 +30,8 @@ Launch the app in development mode
 $ cargo tauri dev
 ```
 
-## Build
+## Building the application
+
 Create the build
 ```
 $ cargo tauri build
@@ -39,5 +45,5 @@ $ cargo tauri build
 ## Resources
 
 * [indradb](https://github.com/indradb/indradb)
-* [regraph](https://github.com/Izhaki/regraph)
+* [regraph](https://github.com/Izhaki/regraph) / [react](https://react.dev/)
 * [tauri](https://github.com/tauri-apps/tauri)
